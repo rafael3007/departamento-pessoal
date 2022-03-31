@@ -5,6 +5,16 @@ import {Container} from './styles'
 
 import Modal from "./components/Modal";
 
+import { db } from "./backend/config/firebase-config"
+import { 
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  deleteDoc
+} from "firebase/firestore"
+
 function App() {
   let data = [{
     id: 1,
@@ -47,7 +57,6 @@ function App() {
 
   }]
 
-  let result = []
 
   const [itens, setItens] = useState([])
   const [itensPerPage,setItensPerPage]= useState(2)
@@ -63,33 +72,41 @@ function App() {
 
   const[modalEditVisible, setModalEditVisible] = useState(false)
   const[modalAddVisible, setModalAddVisible] = useState(false)
+
+  //form modal
+  const[nome,setNome] = useState("")
+  const [idade,setIdade] = useState(0)
+  const [cpf,setCpf] = useState("")
+  const [estado_civil, setEstado_civil] = useState("")
+  const [estado,setEstado] = useState("")
+  const [cidade,setCidade] = useState("")
+
+  const [pessoas, setPessoas] = useState([])
+
+  const peoplesCollectionRef = collection(db,'peoples')
  
 
   //consulta na api e preencher a lista
   useEffect(()=>{
-    const fetchData = async () =>{
-      const result = await fetch('https://jsonplaceholder.typicode.com/todos')
-      .then(response => response.json())
-      .then(data => data)
-      
+    const getPessoas = async () =>{
 
-      setItens(result)
+      const data = await getDocs(peoplesCollectionRef)
+      setPessoas(data.docs.map((doc) => ({...doc.data(), id:doc.id })))
+
     }
 
-    fetchData()
+    getPessoas()
 
   },[])
 
-  const remover = (item) => {
-    //console.log(item)
-    result = []
-    const index = data.indexOf(item)
-    
-    result = data.slice(index,1)
-    console.log(data.slice(index,1))
 
-    
-    //setData(result)
+  
+
+ 
+  const remover = async(id) => {
+    //try if user doc from id not found return erro
+    const userDoc = doc(db,"peoples",id)
+    await deleteDoc(userDoc)
     
   }
 
@@ -116,22 +133,18 @@ function App() {
                 <td></td>
             </tr>
           {//currentItens
-            data.map(item => {
+            pessoas.map(item => {
               return(
                 <tr>
                   <td >{item.nome}</td>
                   <td >{item.idade}</td>
                   <td >{item.estado_civil}</td>
-                  <td >{item.CPF}</td>
+                  <td >{item.cpf}</td>
                   <td >{item.cidade}</td>
                   <td >{item.estado}</td>
-                  <td><button className='btn-edit' onClick={async ()=>{
-                    
-                    setModalEditVisible(true);
-                    
-                  }}>Editar</button></td>
+                  <td><button className='btn-edit' onClick={async ()=>setModalEditVisible(true)}>Editar</button></td>
                   {modalEditVisible? <Modal onClose={()=>{setModalAddVisible(false)}} row={item} />: null}
-                  <td><button onClick={()=>{remover(item)}} className='btn-remove' >Remover</button></td>
+                  <td><button onClick={()=>{remover(item.id)}} className='btn-remove' >Remover</button></td>
                 </tr>
               )
             })
@@ -154,5 +167,7 @@ function App() {
     </div>
   );
 }
+//
+
 
 export default App;

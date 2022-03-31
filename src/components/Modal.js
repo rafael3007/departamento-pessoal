@@ -3,7 +3,47 @@ import react from "react";
 
 import ContainerModal from "./modalStyles"
 
+
+import { db } from "../backend/config/firebase-config"
+import { 
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore"
+
+
 const Modal = ({onClose = ()=>{},row}) => {
+    const peoplesCollectionRef = collection(db,'peoples')
+
+    const updateRow = async (item) => {
+        //try if user doc from id not found return erro
+        const userDoc = doc(db,"peoples",item.id)
+    
+        const newFields = {
+          idade: item.idade,
+          nome: item.nome,
+          cpf: item.cpf,
+          estado_civil: item.estado_civil,
+          estado: item.estado,
+          cidade: item.cidade,
+        }
+        await updateDoc(userDoc,newFields)
+    }
+
+    const createRow = async() => {
+        //try if inputs are incorrects or null 
+        await addDoc(peoplesCollectionRef,{
+          nome: nome,
+          idade: Number(idade),
+          cpf: cpf,
+          estado_civil: estado_civil,
+          estado: estado,
+          cidade: cidade,
+        })
+      }
+
     const adicionar = ()=>{
         onClose()
     }
@@ -33,7 +73,7 @@ const Modal = ({onClose = ()=>{},row}) => {
                     </div>
                     <footer>
                         <button onClick={onClose}>Cancelar</button>
-                        <button onClick={()=>{adicionar()}}>Inserir</button>
+                        <button onClick={()=>createRow}>Inserir</button>
                     </footer>
                 </form>
             </div>
