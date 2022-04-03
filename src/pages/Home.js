@@ -1,32 +1,40 @@
+import axios from "axios";
 import React,{
   useState,
   useEffect
 } from "react";
-
-import {Link } from "react-router-dom"
+import { Link } from "react-router-dom"
+//import { useApi } from "../services/useApi";
 import "./Home.css"
-
-import { db } from "../backend/config/firebase-config"
-import { 
-  collection,
-  addDoc,
-  getDocs,
-} from "firebase/firestore"
-
-const usersCollectionRef = collection(db,'peoples')
 
 const Home = () => {
   const [data,setData] = useState({})
 
   useEffect(()=>{
     const getUsers = async ()=> {
+
+      const api = axios.create({
+        baseURL: 'http://3.83.74.185:7777',
+        Headers:{ get:{
+          'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8;application/json'
+        } }
+      })
+
+      api.get('/getRow')
+      .then(function(response){
+        console.log(response)
+      })
+      .catch(function(err){
+        console.log(err)
+      })
+      .then(function () {
+        // always executed
+      });
       
-      const data = await getDocs(usersCollectionRef)
-      setData(data.docs.map((doc) => ({...doc.data(), id:doc.id })))
+      //setData(data.docs.map((doc) => ({...doc.data(), id:doc.id })))
     }
     getUsers()
   },[])
-    console.log(data)
     return(
         <div style={{marginTop: "100px"}}>
           <table className="styled-table">

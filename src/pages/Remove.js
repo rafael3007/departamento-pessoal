@@ -5,12 +5,7 @@ import React, {
 
 import { useHistory,useParams } from "react-router-dom"
 import { toast } from "react-toastify";
-import {db} from "../backend/config/firebase-config"
 
-import { 
-    deleteDoc,
-    doc
-  } from "firebase/firestore"
 
 
 const Remove = () => {
@@ -19,8 +14,8 @@ const Remove = () => {
     const history = useHistory()
 
     const remover = async(id) =>{
-        const userDoc = doc(db,"peoples",id)
-        await deleteDoc(userDoc)
+        //const userDoc = doc(db,"peoples",id)
+        //await deleteDoc(userDoc)
         toast.warning("Removido com Sucesso!")
     }
 

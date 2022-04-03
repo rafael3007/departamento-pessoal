@@ -5,19 +5,11 @@ import React,{
 
 import "./AddEdit.css"
 
-import {db} from "../backend/config/firebase-config"
-
-import { 
-    collection,
-    addDoc,
-    getDocs,
-    doc,
-    updateDoc,
-  } from "firebase/firestore"
 
 import { toast } from "react-toastify";
 
 import { useHistory, useParams, Link } from "react-router-dom"
+import { useApi } from "../services/useApi";
 
 
 const initialState = {
@@ -30,7 +22,8 @@ const initialState = {
 }
 
 const AddEdit = () => {
-    const usersCollectionRef = collection(db,'peoples')
+    const { dataApi } = useApi('http://localhost/',{})
+    console.log(dataApi.result)
 
     const [state,setState] = useState(initialState)
     const [data,setData] = useState({})
@@ -53,7 +46,8 @@ const AddEdit = () => {
         } else {
             if(!id){
                 try {
-                    await addDoc(usersCollectionRef,state)
+                    //call /addRow --post
+                    //await 
                 } catch (err) {
                     toast.error(err)
                 }finally{
@@ -62,9 +56,8 @@ const AddEdit = () => {
                 setTimeout(()=>history.push("/"),500)
             }else{
                 const updateUser = async(id) =>{
-                    //try if user doc from id not found return erro
-                    const userDoc = doc(db,"peoples",id)
-                    await updateDoc(userDoc,state)
+                    //try if user doc from id not found return error
+                    //call /updateRow/${id}
                     toast.success("Item Atualizado com Sucesso!")
                 }
                 updateUser(id)
@@ -75,11 +68,13 @@ const AddEdit = () => {
 
     useEffect(()=>{
         const getUsers = async ()=> {
-      
-            const data = await getDocs(usersCollectionRef)
-            setData(data.docs.map((doc) => ({...doc.data(), id:doc.id })))
+            //call get all Rows /getRow and set
+            //const data = await getDocs(usersCollectionRef)
+            //verificar se está recebendo e inserindo certo
+            //setData(data.docs.map((doc) => ({...doc.data(), id:doc.id })))
         }
-          getUsers()
+
+        getUsers()
         return ()=>{
             setData({}) 
         }
