@@ -1,15 +1,10 @@
-import React,{
-    useState,
-    useEffect
-} from "react";
-
-import "./AddEdit.css"
-
+import React,{useState,useEffect} from "react";
+import { useHistory, useParams, Link } from "react-router-dom"
 
 import { toast } from "react-toastify";
-
-import { useHistory, useParams, Link } from "react-router-dom"
-import { useApi } from "../services/useApi";
+import api from "../services/useApi";
+import axios from "axios";
+import { Container } from "./stylesAddEdit";
 
 
 const initialState = {
@@ -21,13 +16,10 @@ const initialState = {
     estado_civil: ""
 }
 
-const AddEdit = () => {
-    const { dataApi } = useApi('http://localhost/',{})
-    console.log(dataApi.result)
-
+const AddEdit = () => { 
+       
     const [state,setState] = useState(initialState)
-    const [data,setData] = useState({})
-
+    const [dados,setDados] = useState({})
     const {nome,idade,cpf,estado,cidade,estado_civil} = state
 
     const history = useHistory()
@@ -36,7 +28,7 @@ const AddEdit = () => {
 
     const handleInputChange = (e) => {
         const {name,value} = e.target;
-        setState({...state, [name]: value})
+        setState({...state, [name]: value})  
     }
 
     const handleSubmit = async (e) =>{
@@ -46,8 +38,7 @@ const AddEdit = () => {
         } else {
             if(!id){
                 try {
-                    //call /addRow --post
-                    //await 
+                    api.post('/addRow',state)
                 } catch (err) {
                     toast.error(err)
                 }finally{
@@ -55,34 +46,47 @@ const AddEdit = () => {
                 }
                 setTimeout(()=>history.push("/"),500)
             }else{
-                const updateUser = async(id) =>{
-                    //try if user doc from id not found return error
-                    //call /updateRow/${id}
+                const updateUser = async() =>{
+                    axios({ 
+                        method : 'put' , 
+                        headers : {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        } , 
+                        url : `http://3.83.74.185:7777/updateRow/${state._id}`, 
+                        data : {
+                            nome: state.nome,
+                            idade: state.idade,
+                            cpf: state.cpf,
+                            estado: state.estado,
+                            cidade: state.cidade,
+                            estado_civil: state.estado_civil
+                        },
+                      })
+
                     toast.success("Item Atualizado com Sucesso!")
+                    setTimeout(()=>history.push("/"),500)
                 }
-                updateUser(id)
+                updateUser()
             }
         }
 
     }
 
-    useEffect(()=>{
-        const getUsers = async ()=> {
-            //call get all Rows /getRow and set
-            //const data = await getDocs(usersCollectionRef)
-            //verificar se está recebendo e inserindo certo
-            //setData(data.docs.map((doc) => ({...doc.data(), id:doc.id })))
-        }
+    function pegarUsuarios(){
+        api.get('/getRow').then(response => setDados(response.data))
+    }
 
-        getUsers()
+    useEffect(()=>{
+        pegarUsuarios()
         return ()=>{
-            setData({}) 
+            setDados({}) 
         }
     },[id])
 
     useEffect(()=>{
         if(id){
-            setState({...data[id]})
+            setState({...dados[id]})
         }else{
            setState({...initialState}) 
         }
@@ -90,17 +94,11 @@ const AddEdit = () => {
         return ()=>{
             setState({...initialState}) 
         }
-    },[id,data])
+    },[id,dados])
 
     return(
-        <div style={{marginTop: "100px"}}>
-            <form style={{
-                margin: "auto",
-                padding: "15px",
-                maxWidth: "400px",
-                alignItems: "center"}}
-                onSubmit={handleSubmit}
-            >
+        <Container>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="nome">Nome</label>
                 <input
                     type="text"
@@ -116,7 +114,7 @@ const AddEdit = () => {
                     id="idade"
                     name="idade"
                     placeholder="Sua idade..."
-                    value={idade || 0}
+                    value={idade || null}
                     onChange={handleInputChange}
                 />
                 <label htmlFor="cpf">CPF</label>
@@ -160,7 +158,7 @@ const AddEdit = () => {
                     <Link to={"/"}><input className="cancel" type="button" value="Cancelar" /></Link>
                 </div>
             </form>
-        </div>
+        </Container>
     )
 }
 export default AddEdit;

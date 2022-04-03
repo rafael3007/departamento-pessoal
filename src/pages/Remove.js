@@ -1,7 +1,5 @@
-import React, {
-    useEffect,
-    useState
-} from "react";
+import axios from "axios";
+import React, {useEffect} from "react";
 
 import { useHistory,useParams } from "react-router-dom"
 import { toast } from "react-toastify";
@@ -14,8 +12,18 @@ const Remove = () => {
     const history = useHistory()
 
     const remover = async(id) =>{
-        //const userDoc = doc(db,"peoples",id)
-        //await deleteDoc(userDoc)
+
+        axios({ 
+            method : 'delete' , 
+            headers : {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            } , 
+            url : `http://3.83.74.185:7777/removeRow/${id}`, 
+           
+          }).then(function( response ){ 
+            console.log(response.dados); 
+          });
         toast.warning("Removido com Sucesso!")
     }
 
@@ -29,10 +37,6 @@ const Remove = () => {
         }else{
             toast.error("O item não foi Removido")
         }
-        //delet
-        
-        
-        //redirect from homepage
         setTimeout(()=>history.push("/"),500)
     },[id])
     return(
@@ -40,4 +44,4 @@ const Remove = () => {
     )
 }
 
-export default Remove;
+export default Remove

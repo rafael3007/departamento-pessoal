@@ -1,20 +1,21 @@
-
+import Header from "./components/Header/Header";
 import { BrowserRouter,Switch, Route} from "react-router-dom"
 
 import AddEdit from './pages/AddEdit';
 import Home from './pages/Home';
 import Remove from './pages/Remove';
 
+
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from "./components/Header/Header";
+
 
 
 
 function App() {
-  
 
-  
+
+    
   return (
     <BrowserRouter>
       <div className="App">

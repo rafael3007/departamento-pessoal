@@ -1,17 +1,7 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
 
-export function useApi(url,request) {
-    const [dataApi,setDataApi] = useState([])
+const api = axios.create({
+    baseURL: 'http://3.83.74.185:7777'
+})
 
-    useEffect(()=>{
-        axios.get(url)
-            .then(response => {
-                setDataApi(response.data)
-            })
-
-    }, []);
-
-    return { dataApi }
-}
-
+export default api;
