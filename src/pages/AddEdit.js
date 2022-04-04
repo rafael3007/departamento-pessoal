@@ -4,7 +4,7 @@ import { useHistory, useParams, Link } from "react-router-dom"
 import { toast } from "react-toastify";
 import api from "../services/useApi";
 import axios from "axios";
-import { Container } from "./stylesAddEdit";
+import { Container } from "../styles/pages/stylesAddEdit.js";
 
 
 const initialState = {
@@ -143,7 +143,7 @@ const AddEdit = () => {
                     value={cidade || ""}
                     onChange={handleInputChange}
                 />
-                <label htmlFor="estado">estado</label>
+                <label htmlFor="estado">Estado</label>
                 <input
                     type="text"
                     id="estado"

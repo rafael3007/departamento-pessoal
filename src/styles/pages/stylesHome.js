@@ -21,6 +21,7 @@ export const Pagination = styled.div`
         font-size: 20px;
         font-weight: bold;
         border-radius: 5px;
+        cursor: pointer;
     }
 
     button:hover{
@@ -35,6 +36,7 @@ export const Pagination = styled.div`
         background-color: #F3F3F3;
         color: #009879;
         padding: 18px;
+        cursor: no-drop;
     }
 `;
 

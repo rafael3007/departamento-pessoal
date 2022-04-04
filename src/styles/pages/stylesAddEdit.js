@@ -55,5 +55,9 @@ export const Container = styled.div`
         border-radius: 4px;
         cursor: pointer;
     }
+
+    form input[type="button"].cancel:hover {
+        background-color: #A10C00;
+    }
 `
 

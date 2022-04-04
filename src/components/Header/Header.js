@@ -5,7 +5,7 @@ import React, {
 
 import { Link,useLocation } from "react-router-dom"
 
-import { Head } from "./stylesHeader";
+import { Head } from "../../styles/components/stylesHeader.js";
 
 const Header = () => {
     const [activeTab,setActiveTab] = useState("Home")
@@ -26,14 +26,14 @@ const Header = () => {
                     <p 
                         className={`${activeTab === "Home" ? "active": ""}`} 
                         onClick={()=>setActiveTab("Home")}>
-                        Home
+                        Página Inicial
                     </p>
                 </Link>
                 <Link to="/add" >
                     <p 
                         className={`${activeTab === "AddContact" ? "active": ""}`} 
                         onClick={()=>setActiveTab("AddContact")}>
-                        Add Contact
+                        Adicionar Linha
                     </p>
                 </Link>
             </div>

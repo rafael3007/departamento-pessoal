@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const Head = styled.div`
+    margin: -10px;
     overflow: hidden;
     background-color: #F1F1F1;
     display: flex;

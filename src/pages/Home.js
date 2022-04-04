@@ -1,8 +1,11 @@
 import React,{useState,useEffect} from 'react';
-import { Link,useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import api from '../services/useApi';
 
-import {Pagination,Container, Tabela, Options, Edit, Delete} from './stylesHome.js'
+//Caixa de confirmação estilizada para o Deletar
+//import Dialog from '../components/Dialog/Dialog.js'
+
+import {Pagination,Container, Tabela, Options, Edit, Delete} from '../styles/pages/stylesHome.js'
 
 const Home = () => {
 
@@ -17,7 +20,7 @@ const Home = () => {
   const startIndex = currentPage * itensPerPage;
   const endIndex = startIndex + itensPerPage;
   const currentItens = data.slice(startIndex,endIndex)
-
+  
 
   useEffect(()=>{
     const getUsers = async ()=> {
@@ -26,7 +29,7 @@ const Home = () => {
     }
     getUsers()
 
-  },[])
+  },[]) 
 
   
     return(
@@ -59,7 +62,7 @@ const Home = () => {
                           <Edit>Editar</Edit>
                         </Link>
                         <Link to={`/remove/${currentItens[id]._id}`}>
-                          <Delete >Delete</Delete>
+                          <Delete>Deletar</Delete>
                         </Link>
                       </Options>
                     </td>
@@ -80,8 +83,7 @@ const Home = () => {
                 >{index+1}</button>
               })
             }
-          </Pagination>
-            
+          </Pagination>            
           
         </Container>
     )
