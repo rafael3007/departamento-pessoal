@@ -1,7 +1,7 @@
 import { Cancelar, Exclude, Modal } from "./ModalStyle";
 
 
-function Dialog({onDialog }){
+function Dialog({ onDialog }){
 
     return(
         <Modal>
