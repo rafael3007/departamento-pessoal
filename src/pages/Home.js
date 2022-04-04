@@ -29,7 +29,6 @@ const Home = () => {
   },[])
 
   
-  
     return(
         <Container>
           <Tabela>
@@ -56,7 +55,7 @@ const Home = () => {
                     <td>{currentItens[id].estado}</td>
                     <td>
                       <Options>
-                        <Link to={`/update/${id}`}>
+                        <Link to={`/update/${Number(id)+(Number(itensPerPage)*Number(currentPage))}`} >
                           <Edit>Editar</Edit>
                         </Link>
                         <Link to={`/remove/${currentItens[id]._id}`}>

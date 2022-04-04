@@ -76,16 +76,15 @@ const AddEdit = () => {
     function pegarUsuarios(){
         api.get('/getRow').then(response => setDados(response.data))
     }
-
     useEffect(()=>{
         pegarUsuarios()
         return ()=>{
             setDados({}) 
         }
     },[id])
-
     useEffect(()=>{
         if(id){
+            
             setState({...dados[id]})
         }else{
            setState({...initialState}) 
