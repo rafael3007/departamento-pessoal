@@ -27,13 +27,18 @@ export const Pagination = styled.div`
     button:hover{
         border: 2px solid #009879;
         background-color: #F3F3F3;
+        font-size: 20px;
+        font-weight: bold;
         color: #009879;
         padding: 18px;
+
     }
 
     button.active{
         border: 2px solid #009879;
         background-color: #F3F3F3;
+        font-size: 20px;
+        font-weight: bold;
         color: #009879;
         padding: 18px;
         cursor: no-drop;
@@ -95,7 +100,7 @@ export const Options = styled.div`
     button{
         border: none;
         color: #FFF;
-        padding: 5px 8px;
+        
         text-align: center;
         text-decoration: none;
         display: inline-block;
