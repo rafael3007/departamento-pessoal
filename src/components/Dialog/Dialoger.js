@@ -1,19 +1,18 @@
 import { Cancelar, Exclude, Modal } from "../../styles/components/ModalStyle.js";
 
 
-function Dialog(){
-
+function Dialoger({id, onFechar}){
     return(
         <Modal>
             <div>
                 <h3>Deseja realmente excluir o item?</h3>
                 <div>
-                    <Exclude >Excluir</Exclude>
-                    <Cancelar >Cancelar</Cancelar>
+                    <Exclude onClick={()=>onFechar(true,id)}>Excluir</Exclude>
+                    <Cancelar onClick={()=>onFechar(false,id)}>Cancelar</Cancelar>
                 </div>
             </div>
         </Modal>
     )
 }
 
-export default Dialog;
+export default Dialoger;

@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { Link } from 'react-router-dom'
+import Dialoger from '../components/Dialog/Dialoger';
 import api from '../services/useApi';
 
 //Caixa de confirmação estilizada para o Deletar
@@ -20,8 +21,29 @@ const Home = () => {
   const startIndex = currentPage * itensPerPage;
   const endIndex = startIndex + itensPerPage;
   const currentItens = data.slice(startIndex,endIndex)
-  
 
+  const [currentId,setCurrentId] = useState(null)
+  
+  //modal
+  const [isVisible,setIsVisible] = useState(false)
+
+  const formatarCPF = (cpf) => { 
+    //retira os caracteres indesejados...
+    cpf = cpf.replace(/[^\d]/g, "");
+      
+    //realizar a formatação...
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  }
+
+  const handleDelete = (choice,id)=>{ 
+    console.log(id)
+    if(choice){
+      //delete
+      console.log('deletado')
+    }
+    setIsVisible(false)
+  }
+  
   useEffect(()=>{
     const getUsers = async ()=> {
       api.get('/getRow')
@@ -61,8 +83,12 @@ const Home = () => {
                         <Link to={`/update/${Number(id)+(Number(itensPerPage)*Number(currentPage))}`} >
                           <Edit>Editar</Edit>
                         </Link>
-                        <Link to={`/remove/${currentItens[id]._id}`}>
-                          <Delete>Deletar</Delete>
+                        <Link >
+                          <Delete onClick={()=>{
+                            setCurrentId(currentItens[id]._id)
+                            setIsVisible(true)
+                          }}>Deletar</Delete>
+                          
                         </Link>
                       </Options>
                     </td>
@@ -70,6 +96,7 @@ const Home = () => {
                 )
               })}
             </tbody>
+            
           </Tabela>
           <Pagination>
             {
@@ -84,7 +111,7 @@ const Home = () => {
               })
             }
           </Pagination>            
-          
+          {isVisible?<Dialoger onFechar={handleDelete} id={currentId}/>:""}
         </Container>
     )
 }
