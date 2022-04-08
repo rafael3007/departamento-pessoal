@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import { Link } from 'react-router-dom'
 import Dialoger from '../components/Dialog/Dialoger';
 import api from '../services/useApi';
-
+import Axios  from 'axios';
 import { useHistory,useParams } from "react-router-dom"
 import { toast } from "react-toastify"
 
@@ -10,7 +10,7 @@ import { toast } from "react-toastify"
 //import Dialog from '../components/Dialog/Dialog.js'
 
 import {Pagination,Container, Tabela, Options, Edit, Delete} from '../styles/pages/stylesHome.js'
-import Axios  from 'axios';
+
 
 const Home = () => {
 
@@ -31,16 +31,8 @@ const Home = () => {
   //modal
   const [isVisible,setIsVisible] = useState(false)
 
-  const formatarCPF = (cpf) => { 
-    //retira os caracteres indesejados...
-    cpf = cpf.replace(/[^\d]/g, "");
-      
-    //realizar a formatação...
-    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-  }
 
   const handleDelete = (choice,id)=>{ 
-    console.log(id)
     if(choice){
       //delete
       
