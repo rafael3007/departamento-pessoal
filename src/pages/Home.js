@@ -10,7 +10,7 @@ import { toast } from "react-toastify"
 //import Dialog from '../components/Dialog/Dialog.js'
 
 import {Pagination,Container, Tabela, Options, Edit, Delete} from '../styles/pages/stylesHome.js'
-import Axios  from 'axios';
+//import Axios  from 'axios';
 
 const Home = () => {
 
