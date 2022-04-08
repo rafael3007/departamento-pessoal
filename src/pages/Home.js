@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import { Link } from 'react-router-dom'
 import Dialoger from '../components/Dialog/Dialoger';
 import api from '../services/useApi';
-
+import Axios  from 'axios';
 import { useHistory,useParams } from "react-router-dom"
 import { toast } from "react-toastify"
 
@@ -10,7 +10,7 @@ import { toast } from "react-toastify"
 //import Dialog from '../components/Dialog/Dialog.js'
 
 import {Pagination,Container, Tabela, Options, Edit, Delete} from '../styles/pages/stylesHome.js'
-import Axios  from 'axios';
+
 
 const Home = () => {
 
