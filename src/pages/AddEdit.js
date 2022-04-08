@@ -21,14 +21,27 @@ const AddEdit = () => {
     const [state,setState] = useState(initialState)
     const [dados,setDados] = useState({})
     const {nome,idade,cpf,estado,cidade,estado_civil} = state
-
     const history = useHistory()
 
     const { id } = useParams()
 
     const handleInputChange = (e) => {
         const {name,value} = e.target;
-        setState({...state, [name]: value})  
+        if(name == 'cpf'){
+            
+        }else{
+            setState({...state, [name]: value})  
+        }
+    }
+
+    const handleFormatCPF = (e) => {
+        let tempCPF = e.target.value
+        if(tempCPF.length==14){
+            //ok
+        }else{
+            state.cpf = 
+            toast.warning("Campo CPF Inválido!!!"+"\n"+"Deve ser colocado o ( . ) e ( - ) \nExemplo:123.456.789-00")
+        }
     }
 
     const handleSubmit = async (e) =>{
@@ -73,6 +86,7 @@ const AddEdit = () => {
 
     }
 
+
     function pegarUsuarios(){
         api.get('/getRow').then(response => setDados(response.data))
     }
@@ -86,6 +100,7 @@ const AddEdit = () => {
         if(id){
             
             setState({...dados[id]})
+            
         }else{
            setState({...initialState}) 
         }
@@ -123,7 +138,10 @@ const AddEdit = () => {
                     name="cpf"
                     placeholder="Seu CPF..."
                     value={cpf || ""}
+                    minLength={14}
+                    maxLength={14}
                     onChange={handleInputChange}
+                    onBlur={handleFormatCPF}
                 />
                 <label htmlFor="estado_civil">Estado Civil</label>
                 <input
