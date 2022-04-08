@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom'
 import Dialoger from '../components/Dialog/Dialoger';
 import api from '../services/useApi';
 
+import { useHistory,useParams } from "react-router-dom"
+import { toast } from "react-toastify"
+
 //Caixa de confirmação estilizada para o Deletar
 //import Dialog from '../components/Dialog/Dialog.js'
 
 import {Pagination,Container, Tabela, Options, Edit, Delete} from '../styles/pages/stylesHome.js'
+import Axios  from 'axios';
 
 const Home = () => {
 
@@ -39,9 +43,22 @@ const Home = () => {
     console.log(id)
     if(choice){
       //delete
-      console.log('deletado')
+      
+      Axios({ 
+        method : 'delete' , 
+        headers : {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        } , 
+        url : `http://3.83.74.185:7777/removeRow/${id}`, 
+       
+      })
+      toast.warning("Removido com Sucesso!")
+    }else{
+      toast.error("O item não foi Removido")
     }
     setIsVisible(false)
+    window.location.reload()
   }
   
   useEffect(()=>{
